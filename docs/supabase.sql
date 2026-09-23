@@ -1,5 +1,5 @@
 -- Blue Mountains packing list: run this once in Supabase → SQL Editor → New query → Run.
--- It only creates the two packing_* tables and three packing_* functions, and it only opens
+-- It only creates the two packing_* tables and four packing_* functions, and it only opens
 -- them to the one trip ID in config.js. Nothing else in your project is touched.
 
 create table if not exists public.packing_trips (
