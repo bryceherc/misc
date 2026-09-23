@@ -266,9 +266,9 @@ textarea{resize:vertical;min-height:64px}
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script type="module">
-import { FIREBASE_CONFIG, TRIP_ID } from "./config.js";
+import { SUPABASE_URL, SUPABASE_KEY, TRIP_ID } from "./config.js";
 
-const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
+const SB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/+esm";
 const EVERYONE = "*";
 const CATS = ["Food & Drinks", "Kitchen & BBQ", "Clothing", "Hiking Gear", "Entertainment", "Toiletries & Health", "Misc"];
 const COLORS = ["#2F7D6D", "#B5543C", "#6B5BA8", "#B7801A", "#2C6FA3", "#A0487A", "#5E7D2B", "#7D5E45", "#3E8A9E", "#C0503F"];
@@ -378,40 +378,62 @@ function localStore() {
   };
 }
 
-async function firebaseStore() {
-  const [{ initializeApp }, fs] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-firestore.js")]);
-  const app = initializeApp(FIREBASE_CONFIG);
-  let db;
-  // Offline cache: the list still opens (and queues edits) where signal drops out.
-  try { db = fs.initializeFirestore(app, { localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() }) }); }
-  catch { db = fs.getFirestore(app); }
-  const tripRef = fs.doc(db, "trips", TRIP_ID);
-  const itemsCol = fs.collection(tripRef, "items");
-  let trip = null, items = null, cb = null, seeding = false;
-  const emit = () => trip && items && cb && cb(trip, items);
-  const onErr = (e) => showError(e);
+async function supabaseStore() {
+  const { createClient } = await import(SB);
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
+  const CK = "bm-cache-" + TRIP_ID;
+  let trip = null, items = null, cb = null, seeded = false, timer;
+  const emit = () => trip && items && cb && cb(trip, Object.values(items));
+  // Keep the last copy on the phone so the list still opens with no signal.
+  const cache = () => ls.set(CK, JSON.stringify({ trip, items }));
+  try { const c = JSON.parse(ls.get(CK)); if (c?.trip && c?.items) ({ trip, items } = c); } catch {}
+
+  async function load() {
+    const [t, i] = await Promise.all([
+      sb.from("packing_trips").select("data").eq("id", TRIP_ID).maybeSingle(),
+      sb.from("packing_items").select("id,data").eq("trip_id", TRIP_ID),
+    ]);
+    if (t.error || i.error) throw t.error || i.error;
+    if (!t.data) {
+      if (seeded) return;
+      seeded = true;
+      const sd = seedData();
+      const { error } = await sb.rpc("packing_seed", { p_trip: TRIP_ID, p_trip_data: sd.trip, p_items: sd.items });
+      if (error) throw error;
+      return load();
+    }
+    trip = t.data.data;
+    items = Object.fromEntries(i.data.map((r) => [r.id, { ...r.data, id: r.id }]));
+    cache(); emit();
+  }
+  const refresh = () => { clearTimeout(timer); timer = setTimeout(() => load().catch(showError), 150); };
+  async function rpc(fn, args) {
+    const { error } = await sb.rpc(fn, { p_trip: TRIP_ID, ...args });
+    if (error) { refresh(); throw error; }
+  }
+
   return {
     mode: "cloud",
     subscribe(f) {
-      cb = f;
-      fs.onSnapshot(tripRef, { includeMetadataChanges: false }, async (s) => {
-        if (!s.exists()) {
-          if (s.metadata.fromCache || seeding) return;
-          seeding = true;
-          const sd = seedData();
-          const b = fs.writeBatch(db);
-          b.set(tripRef, sd.trip);
-          sd.items.forEach(({ id, ...it }) => b.set(fs.doc(itemsCol, id), it));
-          try { await b.commit(); } catch (e) { onErr(e); }
-          return;
-        }
-        trip = s.data(); emit();
-      }, onErr);
-      fs.onSnapshot(itemsCol, (s) => { items = s.docs.map((d) => ({ ...d.data(), id: d.id })); emit(); }, onErr);
+      cb = f; emit();
+      load().catch(showError);
+      // Any change by anyone triggers a quick re-read of this trip (only a few dozen rows).
+      sb.channel("packing-" + TRIP_ID)
+        .on("postgres_changes", { event: "*", schema: "public", table: "packing_items" }, refresh)
+        .on("postgres_changes", { event: "*", schema: "public", table: "packing_trips" }, refresh)
+        .subscribe();
+      document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && refresh());
+      window.addEventListener("online", refresh);
+      setInterval(() => document.visibilityState === "visible" && refresh(), 60000);
     },
-    saveTrip: (p) => fs.setDoc(tripRef, p, { merge: true }),
-    saveItem: (id, p) => fs.setDoc(fs.doc(itemsCol, id), p, { merge: true }),
-    deleteItem: (id) => fs.deleteDoc(fs.doc(itemsCol, id)),
+    // Writes show on this phone straight away, then merge on the server.
+    async saveTrip(p) { trip = deepMerge(trip, p); cache(); emit(); await rpc("packing_merge_trip", { p_patch: p }); },
+    async saveItem(id, p) { items[id] = deepMerge(items[id] || { id }, p); cache(); emit(); await rpc("packing_merge_item", { p_id: id, p_patch: p }); },
+    async deleteItem(id) {
+      delete items[id]; cache(); emit();
+      const { error } = await sb.from("packing_items").delete().eq("trip_id", TRIP_ID).eq("id", id);
+      if (error) { refresh(); throw error; }
+    },
   };
 }
 
@@ -777,13 +799,15 @@ $("#settingsBtn").addEventListener("click", openSettings);
 function banner(html) { $("#bannerText").innerHTML = html; $("#banner").hidden = !html; }
 function showError(e) {
   console.error(e);
-  const code = e?.code || "";
-  if (code.includes("permission")) banner("The shared list refused that change. Check the Firestore rules in SETUP.md.");
-  else toast("Couldn't save that. Check your connection and try again.");
+  const code = String(e?.code || ""), msg = String(e?.message || "");
+  if (["42501", "42P01", "PGRST202", "PGRST205"].includes(code) || /row-level security|does not exist|schema cache/i.test(msg))
+    banner("The shared list isn't set up properly. Run supabase.sql again (see SETUP.md).");
+  else if (code === "23514") toast("Items need a name of 80 characters or fewer.");
+  else toast(navigator.onLine ? "Couldn't save that. Try again." : "No signal. That change wasn't saved.");
 }
 function netStatus() {
   if (store?.mode === "local") return;
-  banner(navigator.onLine ? "" : "You're offline. Changes are saved on your phone and will sync when you have signal again.");
+  banner(navigator.onLine ? "" : "You're offline. You can still see the list, but changes need signal.");
 }
 window.addEventListener("online", netStatus);
 window.addEventListener("offline", netStatus);
@@ -791,8 +815,8 @@ setInterval(() => trip && renderMain(), 60000); // keep "2h ago" fresh
 
 // ---------- boot ----------
 (async () => {
-  if (FIREBASE_CONFIG) {
-    try { store = await firebaseStore(); }
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    try { store = await supabaseStore(); }
     catch (e) { console.error(e); banner("Couldn't load the shared list. Showing a preview on this device instead."); store = localStore(); }
   } else {
     store = localStore();

@@ -1,46 +1,44 @@
 # Blue Mountains packing list: setup
 
 The page is `docs/index.html`. It works right away in **preview mode**, where changes save only on
-your own device. To share one live list with everyone, connect it to a free Firebase database and
-publish it with GitHub Pages. This takes about 10 minutes.
+your own device. To share one live list with everyone, connect it to Supabase and publish it with
+GitHub Pages. This takes about 10 minutes.
 
-## 1. Create the Firebase database (free)
+## 1. Set up the Supabase database
 
-1. Go to <https://console.firebase.google.com> and click **Create a project**. Name it something
-   like `blue-mountains-trip`. You can turn Google Analytics off.
-2. In the left menu open **Build → Firestore Database** and click **Create database**.
-   - Location: `australia-southeast1 (Sydney)`.
-   - Start in **production mode**.
-3. Open the **Rules** tab, replace everything with the contents of [`firestore.rules`](firestore.rules),
-   and click **Publish**.
-4. Go to **Project settings** (the gear icon) → **Your apps** → click the **`</>` (Web)** icon.
-   Give it any nickname, leave Firebase Hosting unticked, and click **Register app**.
-5. Copy the `firebaseConfig = { ... }` object it shows you.
+**Pick a project.** The free plan allows two active projects. If you have a free slot, create a new
+project for the trip at <https://supabase.com/dashboard> (choose the **Sydney** region). You can
+also use your existing project: everything this creates is named `packing_*`, and the page's key
+can only reach those tables and only this trip. Nothing else in your project is exposed.
 
-## 2. Paste the config into the page
+1. In the project, open **SQL Editor → New query**.
+2. Paste the whole of [`supabase.sql`](supabase.sql) and click **Run**. You should see
+   "Success. No rows returned". It's safe to run again.
+3. Open **Project Settings → API Keys** (on older dashboards, **Settings → API**) and copy:
+   - the **Project URL**, e.g. `https://abcdefghijkl.supabase.co`
+   - the **publishable** key (`sb_publishable_...`), or on older projects the **anon public** key.
 
-Open [`config.js`](config.js) and replace `null` with the object you copied:
+   **Never** use the `secret` / `service_role` key. It bypasses all the access rules.
+
+## 2. Paste the details into the page
+
+Edit [`config.js`](config.js):
 
 ```js
-export const FIREBASE_CONFIG = {
-  apiKey: "AIza...",
-  authDomain: "blue-mountains-trip.firebaseapp.com",
-  projectId: "blue-mountains-trip",
-  storageBucket: "blue-mountains-trip.appspot.com",
-  messagingSenderId: "...",
-  appId: "..."
-};
+export const SUPABASE_URL = "https://abcdefghijkl.supabase.co";
+export const SUPABASE_KEY = "sb_publishable_...";
 ```
 
-This config isn't a secret. It only identifies the project, and `firestore.rules` controls what
-can be read or written. Commit and push the change.
+The publishable/anon key is designed to be public. What anyone can do with it is limited by the
+access rules in `supabase.sql`. Commit and push the change.
 
 ## 3. Publish with GitHub Pages
 
-1. On GitHub, open the repo's **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to *Deploy from a branch*, set the branch to
+1. Merge this branch into `main`.
+2. On GitHub, open the repo's **Settings → Pages**.
+3. Under **Build and deployment**, set **Source** to *Deploy from a branch*, set the branch to
    `main` and the folder to `/docs`, then click **Save**.
-3. After a minute or so the site is live at **https://bryceherc.github.io/misc/**.
+4. After a minute or so the site is live at **https://bryceherc.github.io/misc/**.
 
 GitHub Pages is free for public repos. For a private repo you need a paid GitHub plan.
 
@@ -58,9 +56,17 @@ like this into the group chat:
 ## Good to know
 
 - **No logins.** Anyone with the link can edit, so only share it with the group.
-- **Offline.** The page keeps a copy on each phone. If you lose signal in the valleys, it still
-  opens, and your changes sync once you're back in range.
-- **Starting over.** Delete the `trips` collection in the Firestore console. The next visit
-  creates a fresh starter list.
+- **Offline.** Each phone keeps the last copy, so the list still opens without signal. Changes
+  need a connection.
+- **Free-plan pausing.** Supabase pauses free projects after about a week with no activity. If
+  the page stops loading, open the project in the Supabase dashboard and click **Restore**.
+  If you use your existing, active project, this won't happen.
+- **Starting over.** Run `delete from packing_trips;` in the SQL Editor. The next visit creates a
+  fresh starter list.
+- **Removing it completely** when the trip's over:
+  ```sql
+  drop table if exists packing_items, packing_trips;
+  drop function if exists packing_seed, packing_merge_item, packing_merge_trip, packing_deep_merge;
+  ```
 - **Trip dates and names.** Tap the gear icon on the page to set the dates, rename the trip, or
   add and remove people. When you remove someone, their items go back to Unassigned.
