@@ -1,0 +1,21 @@
+rules_version = '2';
+// Only the one trip ID in config.js can be read or written. Anyone with the page link can
+// edit the list (no logins), so treat the link like a group-chat secret.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isTrip(tripId) { return tripId == 'bm-1ev8e183qete'; }
+
+    match /trips/{tripId} {
+      allow read: if isTrip(tripId);
+      allow write: if isTrip(tripId);
+
+      match /items/{itemId} {
+        allow read, delete: if isTrip(tripId);
+        allow create, update: if isTrip(tripId)
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 80
+          && request.resource.data.keys().size() <= 20;
+      }
+    }
+  }
+}

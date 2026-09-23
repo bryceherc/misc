@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blue Mountains Packing</title>
+<meta name="description" content="Shared packing list for our Blue Mountains weekend: claim items, see who's bringing what, tick them off as you pack.">
+<meta name="theme-color" content="#3F6F5A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F1ECE2; --surface:#FFFCF6; --surface-2:#F7F2E8; --ink:#1E2A24; --muted:#5C6A62; --line:#E1D8C8;
+  --euc:#3F6F5A; --euc-ink:#FFFFFF; --euc-soft:#DDE9E1; --sand:#B8753A; --sand-soft:#F6E4CF; --sand-ink:#7A4818;
+  --ridge:#9FB8AA; --danger:#A33B2B;
+  --shadow:0 1px 2px rgba(30,42,36,.06),0 6px 20px rgba(30,42,36,.06);
+  --display:"Young Serif",Georgia,"Times New Roman",serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121815; --surface:#1A221E; --surface-2:#1F2924; --ink:#E6ECE8; --muted:#98A79E; --line:#2B3731;
+    --euc:#7DB297; --euc-ink:#0F1A14; --euc-soft:#22352C; --sand:#E2A566; --sand-soft:#3A2C1D; --sand-ink:#F0C592;
+    --ridge:#2E4439; --danger:#E0806F; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121815; --surface:#1A221E; --surface-2:#1F2924; --ink:#E6ECE8; --muted:#98A79E; --line:#2B3731;
+  --euc:#7DB297; --euc-ink:#0F1A14; --euc-soft:#22352C; --sand:#E2A566; --sand-soft:#3A2C1D; --sand-ink:#F0C592;
+  --ridge:#2E4439; --danger:#E0806F; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 var(--body);
+  padding:env(safe-area-inset-top,0px) 0 calc(96px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--euc);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Banner */
+.banner{background:var(--sand-soft);color:var(--sand-ink);font-size:14px;padding-block:10px}
+.banner a{color:inherit;font-weight:600}
+
+/* Header */
+header.top{position:relative;padding-block:22px 0;overflow:hidden}
+.top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--euc);margin:0 0 4px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,7vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+.dates{margin:6px 0 0;color:var(--muted);font-size:15px}
+.dates button{background:none;border:0;padding:0;color:var(--euc);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.countdown{display:inline-flex;align-items:baseline;gap:6px;margin-top:10px;background:var(--euc-soft);color:var(--ink);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.countdown b{font-size:18px;color:var(--euc)}
+.head-actions{display:flex;gap:8px;flex-shrink:0}
+.me-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px 4px 4px;font-size:14px;font-weight:600;min-height:40px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.icon-btn svg{width:20px;height:20px}
+.ridge{display:block;width:100%;height:46px;margin-top:14px;color:var(--ridge)}
+.tip{font-size:13px;color:var(--muted);margin:0;padding:10px 0 0;border-top:1px solid var(--line)}
+
+/* Progress */
+.progress{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.meter{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.meter-label{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);font-weight:500}
+.meter-label b{font-size:20px;color:var(--ink);font-weight:700}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--euc);border-radius:99px;transition:width .4s ease}
+.bar.sand i{background:var(--sand)}
+
+/* Tabs */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;margin-top:6px}
+.tablist{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tablist::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;color:var(--muted);min-height:40px;display:inline-flex;align-items:center;gap:6px}
+.tab[aria-selected="true"]{background:var(--euc);color:var(--euc-ink);border-color:var(--euc)}
+.tab .count{font-size:12px;border-radius:99px;padding:1px 7px;background:var(--surface-2);color:var(--muted)}
+.tab[aria-selected="true"] .count{background:rgba(255,255,255,.22);color:inherit}
+.tab .count.warn{background:var(--sand);color:#fff}
+
+/* Sections & items */
+main{display:flex;flex-direction:column;gap:22px;padding-top:6px}
+.section h2{font-family:var(--display);font-weight:400;font-size:20px;margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.section h2 .sub{font-family:var(--body);font-size:13px;color:var(--muted);font-weight:500;margin-left:auto}
+.list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.item{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:4px;padding:6px 10px 6px 4px;border-top:1px solid var(--line);min-height:60px}
+.item:first-child{border-top:0}
+.item.unassigned{background:linear-gradient(90deg,var(--sand-soft),transparent 60%)}
+.tick{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;padding:0}
+.tick span{width:24px;height:24px;border-radius:8px;border:2px solid var(--euc);display:grid;place-items:center;transition:background .15s}
+.tick svg{width:15px;height:15px;opacity:0;color:var(--euc-ink)}
+.tick[aria-pressed="true"] span{background:var(--euc)}
+.tick[aria-pressed="true"] svg{opacity:1}
+.tick:disabled{cursor:default}
+.tick:disabled span{border-color:var(--line);border-style:dashed}
+.tick:disabled[aria-pressed="true"] span{background:var(--ridge);border-style:solid;border-color:var(--ridge)}
+.main{border:0;background:none;text-align:left;padding:6px 4px;min-width:0;display:flex;flex-direction:column;gap:1px}
+.name{font-weight:600;overflow-wrap:anywhere}
+.item.done .name{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
+.qty{font-weight:500;color:var(--muted);font-size:14px}
+.note{font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+.meta{font-size:12px;color:var(--muted)}
+.own{display:flex;align-items:center;justify-content:flex-end}
+.badge{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--surface-2);border-radius:999px;padding:3px 10px 3px 3px;font-size:13px;font-weight:600;max-width:140px;min-height:32px}
+.badge.solo{padding:3px}
+.badge .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.av{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em}
+.av.lg{width:34px;height:34px;font-size:13px}
+.av.all{background:var(--muted)}
+.claim{border:1.5px solid var(--sand);background:var(--surface);color:var(--sand-ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;min-height:36px;white-space:nowrap}
+.empty{padding:22px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+.empty strong{display:block;color:var(--ink);font-family:var(--display);font-weight:400;font-size:18px;margin-bottom:4px}
+.person-head{display:flex;align-items:center;gap:10px}
+
+/* FAB */
+.fab{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:10;border:0;background:var(--euc);color:var(--euc-ink);border-radius:999px;padding:14px 20px;font-weight:700;font-size:16px;box-shadow:0 8px 24px rgba(30,60,45,.3);display:inline-flex;align-items:center;gap:8px}
+.fab svg{width:20px;height:20px}
+@media (min-width:760px){.fab{right:calc(50% - 344px)}}
+
+/* Dialogs */
+dialog{border:0;padding:0;background:var(--surface);color:var(--ink);border-radius:20px 20px 0 0;width:100%;max-width:560px;margin:auto auto 0;max-height:92vh;box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+@media (min-width:600px){dialog{border-radius:20px;margin:auto}}
+dialog::backdrop{background:rgba(15,25,20,.45)}
+.sheet{padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
+.sheet h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
+.sheet .lead{margin:-6px 0 0;color:var(--muted);font-size:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.label{font-size:13px;font-weight:600;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type="text"],input[type="date"],select,textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{resize:vertical;min-height:64px}
+.owner-pick{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:5px 12px 5px 5px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;min-height:38px}
+.opt.plain{padding-left:12px}
+.opt[aria-pressed="true"]{border-color:var(--euc);background:var(--euc-soft);box-shadow:inset 0 0 0 1px var(--euc)}
+.opt.unassigned[aria-pressed="true"]{border-color:var(--sand);background:var(--sand-soft);box-shadow:inset 0 0 0 1px var(--sand)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 16px;font-weight:700;min-height:44px}
+.btn.primary{background:var(--euc);color:var(--euc-ink);border-color:var(--euc)}
+.btn.danger{color:var(--danger);background:none;border-color:transparent;padding-inline:4px}
+.btn.danger.armed{background:var(--danger);color:#fff;border-color:var(--danger);padding-inline:16px}
+.spacer{flex:1}
+.history{font-size:13px;color:var(--muted);margin:0;padding:10px 12px;background:var(--surface-2);border-radius:10px}
+.people-edit{display:flex;flex-direction:column;gap:8px}
+.people-edit .pe{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+.who-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.who-btn{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:8px 10px;font-weight:600;min-height:52px;text-align:left}
+.add-row{display:flex;gap:8px}
+.add-row input{flex:1}
+.status{font-size:13px;color:var(--muted);margin:0}
+.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="banner" id="banner" hidden><div class="wrap" id="bannerText"></div></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <p class="eyebrow">Packing list</p>
+        <h1 id="tripName">Blue Mountains Weekend</h1>
+        <p class="dates" id="tripDates"></p>
+        <div id="countdown"></div>
+      </div>
+      <div class="head-actions">
+        <button class="me-chip" id="meChip" type="button" aria-label="Switch person"></button>
+        <button class="icon-btn" id="settingsBtn" type="button" aria-label="Trip settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </div>
+    <svg class="ridge" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 46V30l22-4 30 3 26-6 24 2 30-5 18 3 12-9 4 5 5-13 4 10 5-15 4 12 5-9 6 10 22 3 28-5 30 4 26-6 32 5 24-3 28 4 16-2v27z"/></svg>
+    <p class="tip">Katoomba sits about 1,000&nbsp;m above sea level. Expect it to be 5–10° colder than Sydney, and pack for rain whatever the forecast says.</p>
+    <div class="progress">
+      <div class="meter">
+        <div class="meter-label"><span>Claimed</span><b class="num" id="ownedPct">0%</b></div>
+        <div class="bar sand"><i id="ownedBar" style="width:0"></i></div>
+        <div class="meta num" id="ownedTxt" style="margin-top:6px"></div>
+      </div>
+      <div class="meter">
+        <div class="meter-label"><span>Packed</span><b class="num" id="packedPct">0%</b></div>
+        <div class="bar"><i id="packedBar" style="width:0"></i></div>
+        <div class="meta num" id="packedTxt" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Views">
+  <div class="wrap"><div class="tablist" role="tablist" id="tabs"></div></div>
+</nav>
+
+<main class="wrap" id="main" aria-live="polite">
+  <div class="empty"><strong>Loading the list…</strong>Hang tight.</div>
+</main>
+
+<button class="fab" id="addBtn" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add item
+</button>
+
+<!-- Item editor -->
+<dialog id="itemDlg" aria-labelledby="itemDlgTitle">
+  <form class="sheet" id="itemForm" method="dialog">
+    <h3 id="itemDlgTitle">Edit item</h3>
+    <div class="field"><label for="fName">Item</label><input type="text" id="fName" required maxlength="80" autocomplete="off"></div>
+    <div class="row2">
+      <div class="field"><label for="fQty">Quantity</label><input type="text" id="fQty" maxlength="30" placeholder="e.g. 2 or 3 pairs" autocomplete="off"></div>
+      <div class="field"><label for="fCat">Category</label><select id="fCat"></select></div>
+    </div>
+    <div class="field"><label for="fNote">Note</label><textarea id="fNote" maxlength="200" placeholder="e.g. bringing the big one"></textarea></div>
+    <div class="field">
+      <span class="label" id="ownerLbl">Who's bringing it?</span>
+      <div class="owner-pick" id="ownerPick" role="group" aria-labelledby="ownerLbl"></div>
+    </div>
+    <p class="history" id="fHistory" hidden></p>
+    <div class="actions">
+      <button type="button" class="btn danger" id="delBtn">Delete</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn" id="cancelItem">Cancel</button>
+      <button type="submit" class="btn primary" id="saveItem">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Who are you -->
+<dialog id="whoDlg" aria-labelledby="whoTitle">
+  <form class="sheet" id="whoForm" method="dialog">
+    <h3 id="whoTitle">Who are you?</h3>
+    <p class="lead">Pick your name so your claims and ticks are credited to you. This is remembered on this device.</p>
+    <div class="who-list" id="whoList"></div>
+    <div class="field">
+      <label for="newMe">Not on the list? Add yourself</label>
+      <div class="add-row"><input type="text" id="newMe" maxlength="24" placeholder="Your first name" autocomplete="given-name"><button class="btn primary" type="submit" id="addMeBtn">Add me</button></div>
+    </div>
+    <div class="actions" id="whoCancelRow" hidden><span class="spacer"></span><button type="button" class="btn" id="whoCancel">Cancel</button></div>
+  </form>
+</dialog>
+
+<!-- Settings -->
+<dialog id="setDlg" aria-labelledby="setTitle">
+  <form class="sheet" id="setForm" method="dialog">
+    <h3 id="setTitle">Trip settings</h3>
+    <div class="field"><label for="sName">Trip name</label><input type="text" id="sName" maxlength="60" autocomplete="off"></div>
+    <div class="row2">
+      <div class="field"><label for="sStart">Leaving</label><input type="date" id="sStart"></div>
+      <div class="field"><label for="sEnd">Coming home</label><input type="date" id="sEnd"></div>
+    </div>
+    <div class="field">
+      <span class="label">Who's coming</span>
+      <div class="people-edit" id="peopleEdit"></div>
+      <div class="add-row"><input type="text" id="sNewPerson" maxlength="24" placeholder="Add a name" autocomplete="off" aria-label="New person's name"><button class="btn" type="button" id="sAddPerson">Add</button></div>
+    </div>
+    <p class="status" id="syncStatus"></p>
+    <div class="actions"><button type="button" class="btn" id="switchMe">Switch person</button><span class="spacer"></span><button type="submit" class="btn primary">Done</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="module">
+import { FIREBASE_CONFIG, TRIP_ID } from "./config.js";
+
+const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
+const EVERYONE = "*";
+const CATS = ["Food & Drinks", "Kitchen & BBQ", "Clothing", "Hiking Gear", "Entertainment", "Toiletries & Health", "Misc"];
+const COLORS = ["#2F7D6D", "#B5543C", "#6B5BA8", "#B7801A", "#2C6FA3", "#A0487A", "#5E7D2B", "#7D5E45", "#3E8A9E", "#C0503F"];
+
+// [category, name, owner (null = unassigned, "*" = everyone), qty, note]
+const SEED = [
+  ["Food & Drinks", "Breakfast supplies", null, "", "Eggs, bacon, bread, butter"],
+  ["Food & Drinks", "Coffee & tea", null, "", ""],
+  ["Food & Drinks", "Milk", null, "2 L", ""],
+  ["Food & Drinks", "Saturday dinner ingredients", null, "", ""],
+  ["Food & Drinks", "Snacks for the walks", null, "", "Muesli bars, trail mix, fruit"],
+  ["Food & Drinks", "Drinks & mixers", null, "", ""],
+  ["Food & Drinks", "Marshmallows for the fire", null, "", ""],
+  ["Food & Drinks", "Bag of ice", null, "2", "Grab on the way up"],
+  ["Kitchen & BBQ", "Esky", null, "2", ""],
+  ["Kitchen & BBQ", "BBQ tongs & utensils", null, "", ""],
+  ["Kitchen & BBQ", "Aluminium foil", null, "", ""],
+  ["Kitchen & BBQ", "Bin bags", null, "", ""],
+  ["Kitchen & BBQ", "Paper towel & tea towels", null, "", ""],
+  ["Clothing", "Warm layers (fleece or puffer)", EVERYONE, "", "Nights get cold, even in warmer months"],
+  ["Clothing", "Rain jacket", EVERYONE, "", "Weather turns fast up there"],
+  ["Clothing", "Beanie & gloves", EVERYONE, "", ""],
+  ["Clothing", "Thermals or trackies for the night", EVERYONE, "", ""],
+  ["Clothing", "Warm socks", EVERYONE, "3 pairs", "Plus a spare pair for wet tracks"],
+  ["Hiking Gear", "Proper hiking shoes", EVERYONE, "", "Tracks are steep and slippery after rain"],
+  ["Hiking Gear", "Daypack", EVERYONE, "", ""],
+  ["Hiking Gear", "Refillable water bottle", EVERYONE, "", ""],
+  ["Hiking Gear", "Headlamp or torch", EVERYONE, "", ""],
+  ["Hiking Gear", "Offline maps downloaded", EVERYONE, "", "Phone signal is patchy in the valleys"],
+  ["Hiking Gear", "Personal locator beacon", null, "", "Free loans in Katoomba and Blackheath. Check before you go"],
+  ["Entertainment", "Bluetooth speaker", null, "", ""],
+  ["Entertainment", "Board games", null, "", ""],
+  ["Entertainment", "Deck of cards", null, "", ""],
+  ["Toiletries & Health", "First-aid kit", null, "", "Include blister pads"],
+  ["Toiletries & Health", "Sunscreen", EVERYONE, "", "UV is strong even when it's cool"],
+  ["Toiletries & Health", "Insect & leech repellent", EVERYONE, "", "Leeches love the wet tracks"],
+  ["Toiletries & Health", "Personal meds", EVERYONE, "", ""],
+  ["Toiletries & Health", "Toothbrush & toiletries", EVERYONE, "", ""],
+  ["Misc", "Firewood & fire starters", null, "", ""],
+  ["Misc", "Matches or lighter", null, "", ""],
+  ["Misc", "Phone charger & power bank", EVERYONE, "", ""],
+  ["Misc", "Pillow & bedding", EVERYONE, "", "Check whether linen is provided"],
+];
+
+// ---------- helpers ----------
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+const rid = (p) => p + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
+function deepMerge(a, b) {
+  const out = { ...(isObj(a) ? a : {}) };
+  for (const [k, v] of Object.entries(b)) out[k] = isObj(v) && isObj(out[k]) ? deepMerge(out[k], v) : v;
+  return out;
+}
+function ago(t) {
+  if (!t) return "";
+  const s = Math.max(0, (Date.now() - t) / 1000);
+  if (s < 60) return "just now";
+  if (s < 3600) return Math.floor(s / 60) + "m ago";
+  if (s < 86400) return Math.floor(s / 3600) + "h ago";
+  return Math.floor(s / 86400) + "d ago";
+}
+const initials = (n) => (n || "?").trim().split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+let toastTimer;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2600);
+}
+
+function seedData() {
+  const base = Date.now();
+  return {
+    trip: { name: "Blue Mountains Weekend", start: "", end: "", people: {}, createdAt: base },
+    items: SEED.map(([category, name, owner, qty, note], i) => ({
+      id: "seed-" + String(i).padStart(3, "0"), name, category, owner, qty, note,
+      packed: false, packedBy: {}, createdAt: base + i, ownerChangedBy: "", ownerChangedAt: 0,
+    })),
+  };
+}
+
+// ---------- stores ----------
+function localStore() {
+  const K = "bm-local-" + TRIP_ID;
+  let data = null, cb = null;
+  try { data = JSON.parse(ls.get(K)); } catch {}
+  const save = () => ls.set(K, JSON.stringify(data));
+  const emit = () => cb && cb(data.trip, Object.values(data.items));
+  if (!data) {
+    const s = seedData();
+    data = { trip: s.trip, items: Object.fromEntries(s.items.map((i) => [i.id, i])) };
+    save();
+  }
+  window.addEventListener("storage", (e) => {
+    if (e.key !== K) return;
+    try { data = JSON.parse(e.newValue); emit(); } catch {}
+  });
+  return {
+    mode: "local",
+    subscribe(f) { cb = f; emit(); },
+    async saveTrip(p) { data.trip = deepMerge(data.trip, p); save(); emit(); },
+    async saveItem(id, p) { data.items[id] = deepMerge(data.items[id] || { id }, p); save(); emit(); },
+    async deleteItem(id) { delete data.items[id]; save(); emit(); },
+  };
+}
+
+async function firebaseStore() {
+  const [{ initializeApp }, fs] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-firestore.js")]);
+  const app = initializeApp(FIREBASE_CONFIG);
+  let db;
+  // Offline cache: the list still opens (and queues edits) where signal drops out.
+  try { db = fs.initializeFirestore(app, { localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() }) }); }
+  catch { db = fs.getFirestore(app); }
+  const tripRef = fs.doc(db, "trips", TRIP_ID);
+  const itemsCol = fs.collection(tripRef, "items");
+  let trip = null, items = null, cb = null, seeding = false;
+  const emit = () => trip && items && cb && cb(trip, items);
+  const onErr = (e) => showError(e);
+  return {
+    mode: "cloud",
+    subscribe(f) {
+      cb = f;
+      fs.onSnapshot(tripRef, { includeMetadataChanges: false }, async (s) => {
+        if (!s.exists()) {
+          if (s.metadata.fromCache || seeding) return;
+          seeding = true;
+          const sd = seedData();
+          const b = fs.writeBatch(db);
+          b.set(tripRef, sd.trip);
+          sd.items.forEach(({ id, ...it }) => b.set(fs.doc(itemsCol, id), it));
+          try { await b.commit(); } catch (e) { onErr(e); }
+          return;
+        }
+        trip = s.data(); emit();
+      }, onErr);
+      fs.onSnapshot(itemsCol, (s) => { items = s.docs.map((d) => ({ ...d.data(), id: d.id })); emit(); }, onErr);
+    },
+    saveTrip: (p) => fs.setDoc(tripRef, p, { merge: true }),
+    saveItem: (id, p) => fs.setDoc(fs.doc(itemsCol, id), p, { merge: true }),
+    deleteItem: (id) => fs.deleteDoc(fs.doc(itemsCol, id)),
+  };
+}
+
+// ---------- state ----------
+let store, trip = null, items = [];
+let me = ls.get("bm-me-" + TRIP_ID);
+let view = ls.get("bm-view") || "all";
+let editing = null;      // item id being edited, or "" for new
+let pickedOwner = null;  // owner chosen in the item sheet
+
+function people() {
+  const list = Object.entries(trip?.people || {}).map(([id, p]) => ({ id, ...p }));
+  list.sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0));
+  list.forEach((p, i) => (p.color = COLORS[i % COLORS.length]));
+  return list;
+}
+const activePeople = () => people().filter((p) => !p.removed);
+const person = (id) => people().find((p) => p.id === id);
+const nameOf = (id) => person(id)?.name || "Someone";
+const isMe = (id) => !!me && id === me;
+function avatar(p, lg) {
+  if (!p) return `<span class="av all${lg ? " lg" : ""}">?</span>`;
+  return `<span class="av${lg ? " lg" : ""}" style="background:${p.color}">${esc(initials(p.name))}</span>`;
+}
+
+function packedForMe(it) { return it.owner === EVERYONE ? !!(me && it.packedBy?.[me]) : !!it.packed; }
+function everyonePacked(it) {
+  const ids = activePeople().map((p) => p.id);
+  return { done: ids.filter((id) => it.packedBy?.[id]).length, total: ids.length };
+}
+function ownerValid(it) { return it.owner === EVERYONE || (it.owner && person(it.owner) && !person(it.owner).removed); }
+
+function historyText(it) {
+  if (it.owner === EVERYONE) return "Everyone brings their own";
+  if (!it.ownerChangedBy) return it.owner ? "" : "No one's claimed this yet";
+  const by = isMe(it.ownerChangedBy) ? "you" : nameOf(it.ownerChangedBy);
+  const t = ago(it.ownerChangedAt);
+  if (!it.owner) return `Released by ${by} · ${t}`;
+  if (it.ownerChangedBy === it.owner) return `Claimed by ${by} · ${t}`;
+  return `Assigned to ${isMe(it.owner) ? "you" : nameOf(it.owner)} by ${by} · ${t}`;
+}
+
+// ---------- render ----------
+function stats() {
+  const ppl = activePeople().length || 1;
+  let owned = 0, units = 0, packed = 0;
+  for (const it of items) {
+    if (it.owner) owned++;
+    if (it.owner === EVERYONE) { units += ppl; packed += everyonePacked(it).done; }
+    else { units += 1; if (it.owner && it.packed) packed++; }
+  }
+  return { owned, total: items.length, units, packed };
+}
+
+function renderHeader() {
+  $("#tripName").textContent = trip.name || "Blue Mountains Weekend";
+  document.title = (trip.name || "Blue Mountains") + " Packing";
+  const fmt = (d) => new Date(d + "T00:00").toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short" });
+  const dates = $("#tripDates");
+  if (trip.start) dates.textContent = fmt(trip.start) + (trip.end ? " – " + fmt(trip.end) : "");
+  else dates.innerHTML = `<button type="button" data-act="settings">Set the trip dates</button>`;
+
+  const cd = $("#countdown");
+  cd.innerHTML = "";
+  if (trip.start) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const start = new Date(trip.start + "T00:00");
+    const end = trip.end ? new Date(trip.end + "T00:00") : start;
+    const days = Math.round((start - today) / 86400000);
+    let txt;
+    if (days > 1) txt = `<b class="num">${days}</b> days to go`;
+    else if (days === 1) txt = `<b>Tomorrow!</b> Time to pack`;
+    else if (days === 0) txt = `<b>Today!</b> Safe travels`;
+    else if (today <= end) txt = `<b>You're there.</b> Enjoy it`;
+    else txt = `Hope it was a good one`;
+    cd.innerHTML = `<span class="countdown">${txt}</span>`;
+  }
+
+  const p = person(me);
+  $("#meChip").innerHTML = p ? `${avatar(p)}<span>${esc(p.name)}</span>` : `<span style="padding-left:8px">Who are you?</span>`;
+
+  const s = stats();
+  const op = s.total ? Math.round((s.owned / s.total) * 100) : 0;
+  const pp = s.units ? Math.round((s.packed / s.units) * 100) : 0;
+  $("#ownedPct").textContent = op + "%"; $("#ownedBar").style.width = op + "%";
+  $("#ownedTxt").textContent = `${s.owned} of ${s.total} items`;
+  $("#packedPct").textContent = pp + "%"; $("#packedBar").style.width = pp + "%";
+  $("#packedTxt").textContent = `${s.packed} of ${s.units}, counting everyone's own gear`;
+}
+
+function renderTabs() {
+  const unassigned = items.filter((i) => !i.owner).length;
+  const mine = me ? items.filter((i) => (i.owner === me || i.owner === EVERYONE) && !packedForMe(i)).length : 0;
+  const tabs = [
+    ["mine", "My list", mine ? `<span class="count num">${mine}</span>` : ""],
+    ["people", "By person", ""],
+    ["unassigned", "Unassigned", `<span class="count num${unassigned ? " warn" : ""}">${unassigned}</span>`],
+    ["all", "All", `<span class="count num">${items.length}</span>`],
+  ];
+  $("#tabs").innerHTML = tabs.map(([k, l, c]) =>
+    `<button class="tab" role="tab" type="button" data-view="${k}" aria-selected="${view === k}">${l}${c}</button>`).join("");
+}
+
+function row(it) {
+  const done = packedForMe(it);
+  const canTick = !!me && (it.owner === me || it.owner === EVERYONE);
+  const ownerP = it.owner && it.owner !== EVERYONE ? person(it.owner) : null;
+  let meta = historyText(it);
+  if (it.owner === EVERYONE) {
+    const e = everyonePacked(it);
+    meta = `Everyone · ${e.done}/${e.total} packed`;
+  } else if (ownerP && it.packed) meta = `Packed by ${isMe(it.owner) ? "you" : ownerP.name}`;
+  let own;
+  if (!it.owner) own = `<button class="claim" type="button" data-act="claim">I'll bring it</button>`;
+  else if (it.owner === EVERYONE) own = `<button class="badge solo" type="button" data-act="open" aria-label="Everyone brings their own"><span class="av all">All</span></button>`;
+  else own = `<button class="badge" type="button" data-act="open">${avatar(ownerP)}<span class="nm">${isMe(it.owner) ? "You" : esc(ownerP?.name || "Someone")}</span></button>`;
+  const tickLabel = canTick ? (done ? "Mark as not packed" : "Mark as packed") : "Only the owner can tick this off";
+  return `<li class="item${done ? " done" : ""}${!it.owner ? " unassigned" : ""}" data-id="${esc(it.id)}">
+    <button class="tick" type="button" data-act="tick" aria-pressed="${done}" aria-label="${tickLabel}: ${esc(it.name)}"${canTick ? "" : " disabled"}>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>
+    <button class="main" type="button" data-act="open">
+      <span class="name">${esc(it.name)}${it.qty ? ` <span class="qty">× ${esc(it.qty)}</span>` : ""}</span>
+      ${it.note ? `<span class="note">${esc(it.note)}</span>` : ""}
+      ${meta ? `<span class="meta">${esc(meta)}</span>` : ""}
+    </button>
+    <div class="own">${own}</div>
+  </li>`;
+}
+
+const byOrder = (a, b) => (a.createdAt || 0) - (b.createdAt || 0);
+function section(title, list, sub = "", head = "") {
+  return `<section class="section"><h2>${head}${esc(title)}${sub ? `<span class="sub num">${sub}</span>` : ""}</h2>
+    <ul class="list">${list.sort(byOrder).map(row).join("")}</ul></section>`;
+}
+function byCategory(list) {
+  const cats = [...CATS, ...new Set(list.map((i) => i.category).filter((c) => !CATS.includes(c)))];
+  return cats.map((c) => {
+    const l = list.filter((i) => (i.category || "Misc") === c);
+    return l.length ? section(c, l, `${l.length}`) : "";
+  }).join("");
+}
+const empty = (t, d) => `<div class="empty"><strong>${t}</strong>${d}</div>`;
+
+function renderMain() {
+  const main = $("#main");
+  let html = "";
+  if (view === "all") {
+    html = items.length ? byCategory(items) : empty("Nothing on the list yet", "Tap Add item to start it off.");
+  } else if (view === "unassigned") {
+    const l = items.filter((i) => !i.owner);
+    html = l.length ? byCategory(l) : empty("Everything has an owner", "Nice work. Check By person to see who's bringing what.");
+  } else if (view === "mine") {
+    if (!me) html = empty("Pick your name first", `<button class="btn primary" type="button" data-act="who" style="margin-top:10px">Choose who you are</button>`);
+    else {
+      const l = items.filter((i) => i.owner === me || i.owner === EVERYONE);
+      const todo = l.filter((i) => !packedForMe(i)), done = l.filter(packedForMe);
+      const pct = l.length ? Math.round((done.length / l.length) * 100) : 0;
+      html = `<div class="meter"><div class="meter-label"><span>Your packing</span><b class="num">${done.length}/${l.length}</b></div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+      html += todo.length ? section("Still to pack", todo, `${todo.length}`) : (l.length ? empty("All packed", "You're ready to head up the mountains.") : "");
+      if (done.length) html += section("Packed", done, `${done.length}`);
+      if (!items.some((i) => i.owner === me)) html += empty("You haven't claimed anything yet", `Look in <button class="btn" type="button" data-view="unassigned" style="margin:8px auto 0;display:block">Unassigned</button>`);
+    }
+  } else if (view === "people") {
+    const ppl = activePeople();
+    if (!ppl.length) html = empty("No one's here yet", "Add names in Trip settings, or pick Who are you? at the top.");
+    for (const p of ppl) {
+      const l = items.filter((i) => i.owner === p.id);
+      const pk = l.filter((i) => i.packed).length;
+      html += l.length ? section(p.id === me ? `${p.name} (you)` : p.name, l, `${l.length} item${l.length === 1 ? "" : "s"} · ${pk} packed`, avatar(p, true))
+        : `<section class="section"><h2>${avatar(p, true)}${esc(p.name)}${p.id === me ? " (you)" : ""}<span class="sub">Nothing claimed yet</span></h2></section>`;
+    }
+    const orphans = items.filter((i) => i.owner && i.owner !== EVERYONE && !ownerValid(i));
+    if (orphans.length) html += section("Owner left the trip", orphans, `${orphans.length}`);
+    const ev = items.filter((i) => i.owner === EVERYONE);
+    if (ev.length) html += section("Everyone brings their own", ev, `${ev.length}`, `<span class="av all lg">All</span>`);
+  }
+  main.innerHTML = html;
+}
+
+function render() {
+  if (!trip) return;
+  renderHeader(); renderTabs(); renderMain();
+}
+
+// ---------- actions ----------
+const itemById = (id) => items.find((i) => i.id === id);
+async function write(fn, okMsg) {
+  try { await fn(); if (okMsg) toast(okMsg); }
+  catch (e) { showError(e); }
+}
+function ensureMe() {
+  if (me && person(me) && !person(me).removed) return true;
+  openWho(); return false;
+}
+function ownerPatch(owner) {
+  return { owner, ownerChangedBy: me || "", ownerChangedAt: Date.now(), packed: false };
+}
+
+async function claim(id) {
+  if (!ensureMe()) return;
+  const it = itemById(id);
+  await write(() => store.saveItem(id, ownerPatch(me)), `You're bringing ${it?.name || "it"}`);
+}
+async function tick(id) {
+  const it = itemById(id);
+  if (!it || !me) return;
+  if (it.owner === EVERYONE) await write(() => store.saveItem(id, { packedBy: { [me]: !it.packedBy?.[me] } }));
+  else if (it.owner === me) await write(() => store.saveItem(id, { packed: !it.packed }));
+}
+
+// Item sheet
+function renderOwnerPick() {
+  const opts = [[null, "Unassigned", "", "unassigned plain"], [EVERYONE, "Everyone", `<span class="av all">All</span>`, ""]];
+  const ppl = activePeople();
+  const mine = ppl.find((p) => p.id === me);
+  const list = mine ? [mine, ...ppl.filter((p) => p !== mine)] : ppl;
+  for (const p of list) opts.push([p.id, p.id === me ? `Me (${p.name})` : p.name, avatar(p), ""]);
+  $("#ownerPick").innerHTML = opts.map(([v, l, a, c]) =>
+    `<button type="button" class="opt ${c}" data-owner="${v === null ? "" : esc(v)}" aria-pressed="${pickedOwner === v}">${a}${esc(l)}</button>`).join("");
+}
+function openItem(id) {
+  const it = id ? itemById(id) : null;
+  editing = id || "";
+  pickedOwner = it ? it.owner ?? null : null;
+  $("#itemDlgTitle").textContent = it ? "Edit item" : "Add an item";
+  $("#fName").value = it?.name || "";
+  $("#fQty").value = it?.qty || "";
+  $("#fNote").value = it?.note || "";
+  $("#fCat").innerHTML = [...new Set([...CATS, it?.category].filter(Boolean))].map((c) => `<option>${esc(c)}</option>`).join("");
+  $("#fCat").value = it?.category || (view === "all" ? "Misc" : "Misc");
+  const h = it ? historyText(it) : "";
+  $("#fHistory").textContent = h; $("#fHistory").hidden = !h;
+  $("#delBtn").hidden = !it; disarm($("#delBtn"), "Delete");
+  $("#saveItem").textContent = it ? "Save" : "Add to list";
+  renderOwnerPick();
+  $("#itemDlg").showModal();
+  if (!it) $("#fName").focus();
+}
+function disarm(btn, label) { btn.classList.remove("armed"); btn.textContent = label; btn.dataset.armed = ""; }
+
+$("#ownerPick").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-owner]"); if (!b) return;
+  const v = b.dataset.owner || null;
+  if (v && v !== EVERYONE && !me) { openWho(); return; }
+  pickedOwner = v; renderOwnerPick();
+});
+$("#itemForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = $("#fName").value.trim();
+  if (!name) { $("#fName").focus(); return; }
+  const base = { name, qty: $("#fQty").value.trim(), note: $("#fNote").value.trim(), category: $("#fCat").value };
+  const it = editing ? itemById(editing) : null;
+  $("#itemDlg").close();
+  if (it) {
+    const patch = { ...base };
+    if ((it.owner ?? null) !== pickedOwner) Object.assign(patch, ownerPatch(pickedOwner));
+    await write(() => store.saveItem(it.id, patch), "Saved");
+  } else {
+    const id = rid("i");
+    await write(() => store.saveItem(id, {
+      ...base, packed: false, packedBy: {}, createdAt: Date.now(),
+      ...(pickedOwner ? ownerPatch(pickedOwner) : { owner: null, ownerChangedBy: "", ownerChangedAt: 0 }),
+    }), `Added ${name}`);
+  }
+});
+$("#cancelItem").addEventListener("click", () => $("#itemDlg").close());
+$("#delBtn").addEventListener("click", async (e) => {
+  const b = e.currentTarget;
+  if (!b.dataset.armed) { b.dataset.armed = "1"; b.classList.add("armed"); b.textContent = "Tap again to delete"; return; }
+  const it = itemById(editing);
+  $("#itemDlg").close();
+  if (it) await write(() => store.deleteItem(it.id), `Deleted ${it.name}`);
+});
+
+// Who are you
+function openWho() {
+  const ppl = activePeople();
+  $("#whoList").innerHTML = ppl.map((p) => `<button type="button" class="who-btn" data-pick="${esc(p.id)}">${avatar(p, true)}<span>${esc(p.name)}</span></button>`).join("");
+  $("#whoList").hidden = !ppl.length;
+  $("#whoCancelRow").hidden = !(me && person(me));
+  $("#newMe").value = "";
+  if (!$("#whoDlg").open) $("#whoDlg").showModal();
+}
+function setMe(id) { me = id; ls.set("bm-me-" + TRIP_ID, id); render(); }
+$("#whoList").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-pick]"); if (!b) return;
+  setMe(b.dataset.pick); $("#whoDlg").close(); toast(`Hi ${nameOf(me)}!`);
+});
+async function addPerson(name) {
+  name = name.trim().replace(/\s+/g, " ");
+  if (!name) return null;
+  const existing = activePeople().find((p) => p.name.toLowerCase() === name.toLowerCase());
+  if (existing) return existing.id;
+  const id = rid("p");
+  await write(() => store.saveTrip({ people: { [id]: { name, joinedAt: Date.now(), removed: false } } }));
+  return id;
+}
+$("#whoForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = await addPerson($("#newMe").value);
+  if (!id) { $("#newMe").focus(); return; }
+  $("#whoDlg").close(); setMe(id); toast(`Welcome, ${nameOf(id)}!`);
+});
+$("#whoCancel").addEventListener("click", () => $("#whoDlg").close());
+
+// Settings
+function renderPeopleEdit() {
+  $("#peopleEdit").innerHTML = activePeople().map((p) => `<div class="pe" data-pid="${esc(p.id)}">${avatar(p)}
+    <input type="text" id="pn-${esc(p.id)}" value="${esc(p.name)}" maxlength="24" aria-label="Name">
+    <button type="button" class="btn danger" data-remove>Remove</button></div>`).join("") || `<p class="status">No names yet.</p>`;
+}
+function openSettings() {
+  $("#sName").value = trip.name || "";
+  $("#sStart").value = trip.start || "";
+  $("#sEnd").value = trip.end || "";
+  renderPeopleEdit();
+  $("#syncStatus").textContent = store.mode === "cloud"
+    ? "Shared list: changes sync to everyone with the link."
+    : "Preview mode: changes are saved on this device only.";
+  $("#setDlg").showModal();
+}
+$("#sName").addEventListener("change", (e) => write(() => store.saveTrip({ name: e.target.value.trim() || "Blue Mountains Weekend" })));
+$("#sStart").addEventListener("change", (e) => write(() => store.saveTrip({ start: e.target.value })));
+$("#sEnd").addEventListener("change", (e) => write(() => store.saveTrip({ end: e.target.value })));
+$("#peopleEdit").addEventListener("change", (e) => {
+  const pe = e.target.closest("[data-pid]"); const v = e.target.value.trim();
+  if (pe && v) write(() => store.saveTrip({ people: { [pe.dataset.pid]: { name: v } } }));
+});
+$("#peopleEdit").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-remove]"); if (!b) return;
+  if (!b.dataset.armed) { b.dataset.armed = "1"; b.classList.add("armed"); b.textContent = "Tap to confirm"; return; }
+  const pid = b.closest("[data-pid]").dataset.pid;
+  const name = nameOf(pid);
+  await write(() => store.saveTrip({ people: { [pid]: { removed: true } } }));
+  for (const it of items.filter((i) => i.owner === pid)) await write(() => store.saveItem(it.id, ownerPatch(null)));
+  renderPeopleEdit(); toast(`Removed ${name}. Their items are unassigned again.`);
+});
+$("#sAddPerson").addEventListener("click", async () => {
+  const id = await addPerson($("#sNewPerson").value);
+  if (id) { $("#sNewPerson").value = ""; renderPeopleEdit(); }
+});
+$("#sNewPerson").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); $("#sAddPerson").click(); } });
+$("#switchMe").addEventListener("click", () => { $("#setDlg").close(); openWho(); });
+
+// Global clicks
+document.addEventListener("click", (e) => {
+  const v = e.target.closest("[data-view]");
+  if (v) { view = v.dataset.view; ls.set("bm-view", view); render(); window.scrollTo({ top: $("nav.tabs").offsetTop - 4, behavior: "smooth" }); return; }
+  const a = e.target.closest("[data-act]"); if (!a) return;
+  const id = a.closest("[data-id]")?.dataset.id;
+  const act = a.dataset.act;
+  if (act === "claim") claim(id);
+  else if (act === "tick") tick(id);
+  else if (act === "open") openItem(id);
+  else if (act === "who") openWho();
+  else if (act === "settings") openSettings();
+});
+$("#addBtn").addEventListener("click", () => openItem(null));
+$("#meChip").addEventListener("click", openWho);
+$("#settingsBtn").addEventListener("click", openSettings);
+
+// ---------- status ----------
+function banner(html) { $("#bannerText").innerHTML = html; $("#banner").hidden = !html; }
+function showError(e) {
+  console.error(e);
+  const code = e?.code || "";
+  if (code.includes("permission")) banner("The shared list refused that change. Check the Firestore rules in SETUP.md.");
+  else toast("Couldn't save that. Check your connection and try again.");
+}
+function netStatus() {
+  if (store?.mode === "local") return;
+  banner(navigator.onLine ? "" : "You're offline. Changes are saved on your phone and will sync when you have signal again.");
+}
+window.addEventListener("online", netStatus);
+window.addEventListener("offline", netStatus);
+setInterval(() => trip && renderMain(), 60000); // keep "2h ago" fresh
+
+// ---------- boot ----------
+(async () => {
+  if (FIREBASE_CONFIG) {
+    try { store = await firebaseStore(); }
+    catch (e) { console.error(e); banner("Couldn't load the shared list. Showing a preview on this device instead."); store = localStore(); }
+  } else {
+    store = localStore();
+    banner('Preview mode: changes are saved on this device only. Follow <a href="https://github.com/bryceherc/misc/blob/main/docs/SETUP.md">SETUP.md</a> to share it with friends.');
+  }
+  netStatus();
+  let first = true;
+  store.subscribe((t, its) => {
+    trip = t; items = its;
+    render();
+    if (first) { first = false; if (!me || !person(me) || person(me).removed) openWho(); }
+    if ($("#itemDlg").open && editing) {
+      const it = itemById(editing);
+      if (!it) { $("#itemDlg").close(); toast("Someone deleted that item"); }
+      else { const h = historyText(it); $("#fHistory").textContent = h; $("#fHistory").hidden = !h; }
+    }
+  });
+})();
+</script>
+</body>
+</html>
