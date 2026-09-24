@@ -61,6 +61,7 @@ like this into the group chat:
 - **Free-plan pausing.** Supabase pauses free projects after about a week with no activity. If
   the page stops loading, open the project in the Supabase dashboard and click **Restore**.
   If you use your existing, active project, this won't happen.
+- **Scripts already run for this trip** are kept in [`sql/`](sql/) for reference: the trip details and group names, and the simplified shared list.
 - **Starting over.** Run `delete from packing_trips;` in the SQL Editor. The next visit creates a
   fresh starter list.
 - **Removing it completely** when the trip's over:
